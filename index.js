@@ -1,12 +1,23 @@
 const express = require("express");
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+
+// Root route
 app.get("/", (req, res) => {
-  res.send("Football Web API ⚽🔥 is running!");
+  res.send("⚽ Hello Football Website is running on Railway!");
 });
 
-// ⚠️ Railway bagi PORT sendiri, so jangan hardcode
-const PORT = process.env.PORT || 3000;
+// Discord OAuth callback route
+app.get("/callback", (req, res) => {
+  const code = req.query.code;
+  if (!code) {
+    return res.status(400).send("❌ No code provided");
+  }
+  // Sementara: just tunjuk balik code
+  res.send(`✅ OAuth Callback received! Code: ${code}`);
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
